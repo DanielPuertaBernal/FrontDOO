@@ -36,7 +36,7 @@ export const registrarUsuario = async (data) => {
 };
 
 // Consultar Usuarios
-export const consultarUsuarios = async () => {
+export const consultarUsuario = async () => {
   const url = `${baseUrl}/usuarios`;
   try {
       const respuesta = await axios.get(url);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { login } from '../../../services/ApiService';
+import { consultarUsuario } from '../../../services/ApiService';
 import './formularioLogin.css';
 
 const LoginForm = ({ onLogin }) => {
@@ -15,8 +15,12 @@ const LoginForm = ({ onLogin }) => {
     }
     setError('');
     try {
-      const userData = await login({ username, password });
-      onLogin(userData);
+      const userData = await consultarUsuario({ username, password });
+      if (userData.correcto) {
+        onLogin(userData);
+      } else {
+        setError('Usuario o contraseña incorrectos');
+      }
     } catch (error) {
       setError('Error al iniciar sesión');
     }

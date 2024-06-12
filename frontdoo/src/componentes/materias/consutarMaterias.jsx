@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { consultarMateria, obtenerInstitucion } from '../../services/ApiService';
+import { consultarMateria} from '../../services/ApiService';
 import './materias.css';
 
 const FormularioConsultarMateria = () => {

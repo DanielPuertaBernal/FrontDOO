@@ -1,27 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { registrarMateria, obtenerInstitucion } from '../../services/ApiService';
+import React, { useState } from 'react';
+import { registrarMateria } from '../../services/ApiService';
 import './materias.css';
 
 const FormularioRegistrarMateria = () => {
-    const [instituciones, setInstituciones] = useState([]);
-    const [institucionSeleccionada, setInstitucionSeleccionada] = useState('');
+    const [institucion, setInstitucion] = useState('');
     const [nombreMateria, setNombreMateria] = useState('');
     const [error, setError] = useState('');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await obtenerInstitucion();
-                setInstituciones(data);
-            } catch (error) {
-                setError('Error al cargar las instituciones');
-            }
-        };
-        fetchData();
-    }, []);
-
     const handleInstitucionChange = (e) => {
-        setInstitucionSeleccionada(e.target.value);
+        setInstitucion(e.target.value);
     };
 
     const handleNombreMateriaChange = (e) => {
@@ -30,13 +17,13 @@ const FormularioRegistrarMateria = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!institucionSeleccionada || !nombreMateria) {
+        if (!institucion || !nombreMateria) {
             setError('Por favor, completa todos los campos');
             return;
         }
         setError('');
         try {
-            await registrarMateria({ institucion: institucionSeleccionada, nombre: nombreMateria });
+            await registrarMateria({ institucion, nombre: nombreMateria });
             // Lógica para mostrar mensaje de éxito
         } catch (error) {
             setError('Error al registrar la materia');
@@ -50,15 +37,12 @@ const FormularioRegistrarMateria = () => {
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="institucion">Institución:</label>
-                    <select
+                    <input
                         id="institucion"
-                        value={institucionSeleccionada}
-                        onChange={handleInstitucionChange}>
-                        <option value=''>Seleccionar</option>
-                        {instituciones.map((institucion) => (
-                            <option key={institucion.id} value={institucion.id}>{institucion.nombre}</option>
-                        ))}
-                    </select>
+                        type="text"
+                        value={institucion}
+                        onChange={handleInstitucionChange}
+                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="nombreMateria">Nombre de la Materia:</label>
