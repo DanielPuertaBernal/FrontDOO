@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { 
-    registrarUsuario} from '../../../services/ApiService';
+import { registrarUsuario } from '../../../services/ApiService';
 import './formularioRegistrarUsuarios.css';
 
 const FormularioRegistrarUsuarios = ({ onRegistrar }) => {
@@ -12,75 +11,25 @@ const FormularioRegistrarUsuarios = ({ onRegistrar }) => {
     const [contrasena, setContrasena] = useState('');
     const [telefono, setTelefono] = useState('');
     const [fechaNacimiento, setFechaNacimiento] = useState('');
-    const [pais, setPais] = useState('');
-    const [departamento, setDepartamento] = useState('');
-    const [ciudad, setCiudad] = useState('');
+    const [tipoUsuario, setTipoUsuario] = useState('');
+    const [direccion, setDireccion] = useState('');
+    const [institucion, setInstitucion] = useState('');
     const [error, setError] = useState('');
-    const [tipoDocumentoList] = useState([]);
-    const [paisList] = useState([]);
-    const [departamentoList] = useState([]);
-    const [ciudadList] = useState([]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!tipoDocumento || !numeroDocumento || !nombres || !apellidos || !correoElectronico || !contrasena || !telefono || !fechaNacimiento || !pais || !departamento || !ciudad) {
+        if (!tipoDocumento || !numeroDocumento || !nombres || !apellidos || !correoElectronico || !contrasena || !telefono || !fechaNacimiento || !tipoUsuario || !direccion || !institucion) {
             setError('Por favor, completa todos los campos');
             return;
         }
         setError('');
         try {
-            const userData = await registrarUsuario({ tipoDocumento, numeroDocumento, nombres, apellidos, correoElectronico, contrasena, telefono, fechaNacimiento, pais, departamento, ciudad });
+            const userData = await registrarUsuario({ tipoDocumento, numeroDocumento, nombres, apellidos, correoElectronico, contrasena, telefono, fechaNacimiento, tipoUsuario, direccion, institucion });
             onRegistrar(userData);
         } catch (error) {
             setError('Error al registrar usuario');
         }
     };
-
-    const handleTipoDocumentoChange = (e) => {
-        setTipoDocumento(e.target.value);
-    };
-
-    const handleNumeroDocumentoChange = (e) => {
-        setNumeroDocumento(e.target.value);
-    };
-
-    const handleNombresChange = (e) => {
-        setNombres(e.target.value);
-    };
-
-    const handleApellidosChange = (e) => {
-        setApellidos(e.target.value);
-    };
-
-    const handleCorreoElectronicoChange = (e) => {
-        setCorreoElectronico(e.target.value);
-    };
-
-    const handleContrasenaChange = (e) => {
-        setContrasena(e
-        .target.value);
-    }
-
-    const handleTelefonoChange = (e) => {
-        setTelefono(e.target.value);
-    }
-
-    const handleFechaNacimientoChange = (e) => {
-        setFechaNacimiento(e.target.value);
-    }
-
-    const handlePaisChange = (e) => {
-        setPais(e.target.value);
-    }
-
-    const handleDepartamentoChange = (e) => {
-        setDepartamento(e.target.value);
-    }
-
-    const handleCiudadChange = (e) => {
-        setCiudad(e.target.value);
-    }
-
 
     return (
         <div className="card">
@@ -88,115 +37,47 @@ const FormularioRegistrarUsuarios = ({ onRegistrar }) => {
                 {error && <p className="error">{error}</p>}
                 <div className="form-group">
                     <label htmlFor="tipoDocumento">Tipo Documento:</label>
-                    <select
-                        id="tipoDocumento"
-                        value={tipoDocumento}
-                        onChange={handleTipoDocumentoChange}>
-                        <option value=''>Seleccionar</option>
-                        {tipoDocumentoList.map((tipoDocumento) => (
-                            <option key={tipoDocumento.id} value={tipoDocumento.id}>{tipoDocumento.nombre}</option>
-                        ))}
-                    </select>
+                    <input id="tipoDocumento" type="text" value={tipoDocumento} onChange={(e) => setTipoDocumento(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="numeroDocumento">Numero Documento:</label>
-                    <input
-                        id="numeroDocumento"
-                        type="text"
-                        value={numeroDocumento}
-                        onChange={handleNumeroDocumentoChange}
-                    />
+                    <input id="numeroDocumento" type="text" value={numeroDocumento} onChange={(e) => setNumeroDocumento(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="nombres">Nombres:</label>
-                    <input
-                        id="nombres"
-                        type="text"
-                        value={nombres}
-                        onChange={handleNombresChange}
-                    />
+                    <input id="nombres" type="text" value={nombres} onChange={(e) => setNombres(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="apellidos">Apellidos:</label>
-                    <input
-                        id="apellidos"
-                        type="text"
-                        value={apellidos}
-                        onChange={handleApellidosChange}
-                    />
+                    <input id="apellidos" type="text" value={apellidos} onChange={(e) => setApellidos(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="correoElectronico">Correo Electrónico:</label>
-                    <input
-                        id="correoElectronico"
-                        type="text"
-                        value={correoElectronico}
-                        onChange={handleCorreoElectronicoChange}
-                    />
+                    <input id="correoElectronico" type="email" value={correoElectronico} onChange={(e) => setCorreoElectronico(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="contrasena">Contraseña:</label>
-                    <input
-                        id="contrasena"
-                        type="password"
-                        value={contrasena}
-                        onChange={handleContrasenaChange}
-                    />
+                    <input id="contrasena" type="password" value={contrasena} onChange={(e) => setContrasena(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="telefono">Teléfono:</label>
-                    <input
-                        id="telefono"
-                        type="text"
-                        value={telefono}
-                        onChange={handleTelefonoChange}
-                    />
+                    <input id="telefono" type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="fechaNacimiento">Fecha Nacimiento:</label>
-                    <input
-                        id="fecha
-                        Nacimiento"
-                        type="date"
-                        value={fechaNacimiento}
-                        onChange={handleFechaNacimientoChange}
-                    />
+                    <input id="fechaNacimiento" type="date" value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="pais">País:</label>
-                    <select
-                        id="pais"
-                        value={pais}
-                        onChange={handlePaisChange}>
-                        <option value=''>Seleccionar</option>
-                        {paisList.map((pais) => (
-                            <option key={pais.id} value={pais.id}>{pais.nombre}</option>
-                        ))}
-                    </select>
+                    <label htmlFor="tipoUsuario">Tipo Usuario:</label>
+                    <input id="tipoUsuario" type="text" value={tipoUsuario} onChange={(e) => setTipoUsuario(e.target.value)} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="departamento">Departamento:</label>
-                    <select
-                        id="departamento"
-                        value={departamento}
-                        onChange={handleDepartamentoChange}>
-                        <option value=''>Seleccionar</option>
-                        {departamentoList.map((departamento) => (
-                            <option key={departamento.id} value={departamento.id}>{departamento.nombre}</option>
-                        ))}
-                    </select>
+                    <label htmlFor="direccion">Dirección:</label>
+                    <input id="direccion" type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="ciudad">Ciudad:</label>
-                    <select
-                        id="ciudad"
-                        value={ciudad}
-                        onChange={handleCiudadChange}>
-                        <option value=''>Seleccionar</option>
-                        {ciudadList.map((ciudad) => (
-                            <option key={ciudad.id} value={ciudad.id}>{ciudad.nombre}</option>
-                        ))}
-                    </select>
+                    <label htmlFor="institucion">Institución:</label>
+                    <input id="institucion" type="text" value={institucion} onChange={(e) => setInstitucion(e.target.value)} />
                 </div>
                 <button type="submit" className="btn">Registrar Usuario</button>
             </form>
